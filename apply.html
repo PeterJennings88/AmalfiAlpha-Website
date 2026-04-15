@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Now | AmalfiAlpha</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo"><span class="logo-wordmark">AMALFI<span class="alpha">Alpha</span></span></a>
+            <div class="nav-links">
+                <a href="about.html">About</a>
+                <a href="investing.html">Investing</a>
+                <a href="health.html">Longevity</a>
+                <a href="ai-academy.html">AI Academy</a>
+                <a href="#" class="nav-cta">Member Login →</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Menu"><span></span><span></span><span></span></button>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <a href="about.html">About</a>
+        <a href="investing.html">Investing</a>
+        <a href="health.html">Longevity</a>
+        <a href="ai-academy.html">AI Academy</a>
+        <a href="#">Member Login</a>
+    </div>
+
+    <section class="application-page">
+        <div class="container">
+            <div class="application-wrapper">
+                <div class="application-header">
+                    <p class="section-tagline" style="text-align:center;">Membership Application</p>
+                    <h1>Request <span class="italic">Consideration</span></h1>
+                    <p>Membership in AmalfiAlpha is by invitation or referral. Qualified accredited investors without a referral may apply for consideration by the membership committee.</p>
+                </div>
+
+                <div class="step-indicator" id="stepIndicator">
+                    <div class="step-dot active" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
+                    <div class="step-dot" data-step="4"></div>
+                    <div class="step-dot" data-step="5"></div>
+                </div>
+
+                <div class="application-card">
+                    <form id="applicationForm">
+                        <!-- Step 1: Basics -->
+                        <div class="form-step active" data-step="1">
+                            <p class="step-tagline">Step 1 of 5</p>
+                            <h2>The basics</h2>
+                            <p class="step-description">Let's start with how to reach you.</p>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="First">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Last">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="City, State">
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary btn-full" data-action="next">Continue →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Background -->
+                        <div class="form-step" data-step="2">
+                            <p class="step-tagline">Step 2 of 5</p>
+                            <h2>Your background</h2>
+                            <p class="step-description">Tell us a little about what you do.</p>
+                            <div class="form-group">
+                                <label for="role">Current Role</label>
+                                <input type="text" id="role" name="role" placeholder="e.g. Founder, Partner, CIO">
+                            </div>
+                            <div class="form-group">
+                                <label for="company">Company / Firm</label>
+                                <input type="text" id="company" name="company" placeholder="Where you work">
+                            </div>
+                            <div class="form-group">
+                                <label for="linkedin">LinkedIn URL</label>
+                                <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="background">Which best describes you?</label>
+                                <select id="background" name="background">
+                                    <option value="">Select one</option>
+                                    <option>Investor / Allocator</option>
+                                    <option>Entrepreneur / Founder</option>
+                                    <option>Operator / Executive</option>
+                                    <option>Former Professional Athlete</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" data-action="back">← Back</button>
+                                <button type="button" class="btn btn-primary" data-action="next">Continue →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Accreditation -->
+                        <div class="form-step" data-step="3">
+                            <p class="step-tagline">Step 3 of 5</p>
+                            <h2>Accreditation</h2>
+                            <p class="step-description">AmalfiAlpha membership and deal flow are restricted to accredited investors as defined under SEC Rule 501. Please confirm your status.</p>
+                            <div class="form-group">
+                                <label for="accreditation">Accredited Investor Status</label>
+                                <select id="accreditation" name="accreditation" required>
+                                    <option value="">Select one</option>
+                                    <option>Yes — Income (over $200K individual / $300K joint, last two years)</option>
+                                    <option>Yes — Net worth over $1M (excluding primary residence)</option>
+                                    <option>Yes — Series 7, 65, or 82 license holder</option>
+                                    <option>Yes — Other qualifying criteria</option>
+                                    <option>Not currently accredited</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="investmentInterests">Areas of investment interest</label>
+                                <select id="investmentInterests" name="investmentInterests">
+                                    <option value="">Select primary interest</option>
+                                    <option>Private rounds / venture</option>
+                                    <option>Private equity</option>
+                                    <option>Public markets</option>
+                                    <option>Real estate</option>
+                                    <option>Crypto</option>
+                                    <option>All of the above</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" data-action="back">← Back</button>
+                                <button type="button" class="btn btn-primary" data-action="next">Continue →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Why -->
+                        <div class="form-step" data-step="4">
+                            <p class="step-tagline">Step 4 of 5</p>
+                            <h2>Why AmalfiAlpha?</h2>
+                            <p class="step-description">In a few sentences, what are you hoping to gain — and what would you bring to the community?</p>
+                            <div class="form-group">
+                                <label for="why">Your answer</label>
+                                <textarea id="why" name="why" placeholder="Be honest. The committee reads every word." rows="6"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" data-action="back">← Back</button>
+                                <button type="button" class="btn btn-primary" data-action="next">Continue →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Referral -->
+                        <div class="form-step" data-step="5">
+                            <p class="step-tagline">Step 5 of 5</p>
+                            <h2>Were you referred?</h2>
+                            <p class="step-description">If a current member or someone close to AmalfiAlpha pointed you our way, please let us know. Referred applicants receive prioritized review.</p>
+                            <div class="form-group">
+                                <label for="referrer">Referred by</label>
+                                <input type="text" id="referrer" name="referrer" placeholder="Name of the person who referred you (optional)">
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="smsConsent" name="smsConsent">
+                                <label for="smsConsent">I consent to receive SMS updates about my application.</label>
+                            </div>
+                            <div class="form-checkbox">
+                                <input type="checkbox" id="termsConsent" name="termsConsent" required>
+                                <label for="termsConsent">I confirm that the information provided is accurate and I understand AmalfiAlpha is not a registered broker-dealer or investment advisor.</label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" data-action="back">← Back</button>
+                                <button type="submit" class="btn btn-primary">Submit Application</button>
+                            </div>
+                        </div>
+
+                        <!-- Success state -->
+                        <div class="form-step" data-step="success">
+                            <div class="form-success">
+                                <div class="check-circle">
+                                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                                </div>
+                                <h2>Application Received</h2>
+                                <p>Thank you. The membership committee reviews applications on a rolling basis. If your background is a fit for AmalfiAlpha, you'll hear from us within two weeks.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:1px solid var(--color-border);padding-top:40px;">
+                <p>&copy; 2026 AmalfiAlpha. All rights reserved. Membership restricted to accredited investors.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function() {
+        const form = document.getElementById('applicationForm');
+        const steps = form.querySelectorAll('.form-step');
+        const dots = document.querySelectorAll('#stepIndicator .step-dot');
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function showStep(n) {
+            steps.forEach(s => s.classList.remove('active'));
+            const target = form.querySelector(`.form-step[data-step="${n}"]`);
+            if (target) target.classList.add('active');
+            dots.forEach((d, i) => {
+                d.classList.remove('active', 'completed');
+                if (i + 1 < n) d.classList.add('completed');
+                if (i + 1 === n) d.classList.add('active');
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        form.addEventListener('click', function(e) {
+            const action = e.target.dataset.action;
+            if (action === 'next' && currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            } else if (action === 'back' && currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showStep('success');
+            document.getElementById('stepIndicator').style.display = 'none';
+        });
+    })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

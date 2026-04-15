@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amalfi Publish"
+  short_description: "Publish the approved Amalfi site live"
+  default_prompt: "Use $amalfi-publish to deploy the currently approved Amalfi Alpha site to production on Vercel."
