@@ -193,6 +193,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ============================================
+    // PLACEHOLDER LINK FEEDBACK (COMING SOON TOAST)
+    // ============================================
+
+    let toastTimeoutId = null;
+
+    function showComingSoonToast(message) {
+        let toast = document.querySelector('.coming-soon-toast');
+
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'coming-soon-toast';
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            document.body.appendChild(toast);
+        }
+
+        toast.textContent = message;
+
+        // Force reflow so the transition runs when re-triggering quickly
+        void toast.offsetWidth;
+        toast.classList.add('visible');
+
+        if (toastTimeoutId) {
+            clearTimeout(toastTimeoutId);
+        }
+
+        toastTimeoutId = setTimeout(() => {
+            toast.classList.remove('visible');
+            toastTimeoutId = null;
+        }, 2500);
+    }
+
+    document.querySelectorAll('a[href="#"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showComingSoonToast('Coming soon');
+        });
+    });
+
+    // ============================================
     // FORM HANDLING
     // ============================================
 
