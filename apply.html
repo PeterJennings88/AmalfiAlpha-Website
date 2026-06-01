@@ -8,6 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: #ef4444;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -233,9 +240,25 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateCurrentStep() {
+            const activeStep = form.querySelector('.form-step.active');
+            if (!activeStep) return true;
+            const requiredInputs = activeStep.querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+            requiredInputs.forEach(input => {
+                input.classList.remove('error');
+                if (!input.value.trim()) {
+                    input.classList.add('error');
+                    valid = false;
+                }
+            });
+            return valid;
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateCurrentStep()) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
