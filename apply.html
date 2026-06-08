@@ -236,6 +236,17 @@
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                const activeStep = form.querySelector('.form-step.active');
+                const requiredFields = activeStep.querySelectorAll('[required]');
+                let valid = true;
+                for (const field of requiredFields) {
+                    if (!field.checkValidity()) {
+                        field.reportValidity();
+                        valid = false;
+                        break;
+                    }
+                }
+                if (!valid) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
