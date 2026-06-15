@@ -216,6 +216,7 @@
     <script>
     (function() {
         const form = document.getElementById('applicationForm');
+        form.dataset.inlineHandled = 'true';
         const steps = form.querySelectorAll('.form-step');
         const dots = document.querySelectorAll('#stepIndicator .step-dot');
         let currentStep = 1;
@@ -233,9 +234,28 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateCurrentStep() {
+            const activeStep = form.querySelector(`.form-step[data-step="${currentStep}"]`);
+            if (!activeStep) return true;
+            const requiredFields = activeStep.querySelectorAll('[required]');
+            let valid = true;
+            requiredFields.forEach(function(field) {
+                field.style.borderColor = '';
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#ef4444';
+                    valid = false;
+                } else if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value)) {
+                    field.style.borderColor = '#ef4444';
+                    valid = false;
+                }
+            });
+            return valid;
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateCurrentStep()) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
