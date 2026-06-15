@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const applicationForm = document.getElementById('applicationForm');
 
-    if (applicationForm) {
+    if (applicationForm && !applicationForm.dataset.inlineHandled) {
         applicationForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
