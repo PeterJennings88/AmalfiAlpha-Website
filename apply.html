@@ -221,6 +221,42 @@
         let currentStep = 1;
         const totalSteps = 5;
 
+        var requiredFieldsByStep = {
+            1: ['firstName', 'lastName', 'email'],
+            2: ['role', 'company', 'background'],
+            3: ['accreditation'],
+            4: [],
+            5: ['referrer', 'termsConsent']
+        };
+
+        function validateStep(step) {
+            var fieldIds = requiredFieldsByStep[step] || [];
+            var valid = true;
+
+            fieldIds.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+
+                var isEmpty;
+                if (el.type === 'checkbox') {
+                    isEmpty = !el.checked;
+                } else if (el.tagName === 'SELECT') {
+                    isEmpty = el.value === '';
+                } else {
+                    isEmpty = el.value.trim() === '';
+                }
+
+                if (isEmpty) {
+                    el.classList.add('field-error');
+                    valid = false;
+                } else {
+                    el.classList.remove('field-error');
+                }
+            });
+
+            return valid;
+        }
+
         function showStep(n) {
             steps.forEach(s => s.classList.remove('active'));
             const target = form.querySelector(`.form-step[data-step="${n}"]`);
@@ -236,6 +272,7 @@
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -244,8 +281,21 @@
             }
         });
 
+        form.addEventListener('input', function(e) {
+            if (e.target.classList.contains('field-error')) {
+                e.target.classList.remove('field-error');
+            }
+        });
+
+        form.addEventListener('change', function(e) {
+            if (e.target.classList.contains('field-error')) {
+                e.target.classList.remove('field-error');
+            }
+        });
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!validateStep(currentStep)) return;
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
