@@ -233,9 +233,31 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateStep(n) {
+            const stepEl = form.querySelector(`.form-step[data-step="${n}"]`);
+            if (!stepEl) return true;
+            const fields = stepEl.querySelectorAll('[required]');
+            let valid = true;
+            fields.forEach(field => {
+                const empty = field.type === 'checkbox' ? !field.checked : !field.value.trim();
+                if (empty) {
+                    valid = false;
+                    field.style.border = '1px solid #ef4444';
+                    field.addEventListener('input', clearFieldError);
+                    field.addEventListener('change', clearFieldError);
+                }
+            });
+            return valid;
+        }
+
+        function clearFieldError(e) {
+            e.target.style.border = '';
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
