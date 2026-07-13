@@ -233,9 +233,23 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateStep(n) {
+            const stepEl = form.querySelector(`.form-step[data-step="${n}"]`);
+            if (!stepEl) return true;
+            const controls = stepEl.querySelectorAll('input, select, textarea');
+            for (const control of controls) {
+                if (!control.checkValidity()) {
+                    control.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -246,6 +260,7 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            if (!validateStep(currentStep)) return;
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
