@@ -447,6 +447,7 @@ input, textarea {
 .testimonials-slider {
     margin-top: 60px;
     position: relative;
+    overflow: hidden;
 }
 
 .testimonial-track {
@@ -456,7 +457,7 @@ input, textarea {
 }
 
 .testimonial-card {
-    min-width: calc(33.333% - 16px);
+    flex: 0 0 calc(33.333% - 16px);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -544,10 +545,19 @@ input, textarea {
 .dot {
     width: 8px;
     height: 8px;
+    padding: 0;
+    border: none;
     border-radius: 50%;
     background: var(--color-border-light);
     transition: all var(--transition-fast);
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.dot:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
 }
 
 .dot.active {
@@ -938,7 +948,7 @@ input, textarea {
     }
 
     .testimonial-card {
-        min-width: calc(50% - 12px);
+        flex-basis: calc(50% - 12px);
     }
 
     .experiences-grid {
@@ -991,7 +1001,7 @@ input, textarea {
     }
 
     .testimonial-card {
-        min-width: 100%;
+        flex-basis: 100%;
     }
 
     .experiences-grid {
