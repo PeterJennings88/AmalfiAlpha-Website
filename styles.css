@@ -401,11 +401,11 @@ input, textarea {
 }
 
 .type-image.investor {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a6350758-362d-4dd6-b7b1-6872cc72dab1/IMGL1883.jpg');
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a6350758-362d-4dd6-b7b1-6872cc72dab1/IMGL1883.jpg?format=1000w');
 }
 
 .type-image.entrepreneur {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg');
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg?format=1000w');
 }
 
 .type-card:hover .type-image {
