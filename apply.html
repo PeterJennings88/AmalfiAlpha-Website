@@ -233,9 +233,50 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function getStepElement(n) {
+            return form.querySelector(`.form-step[data-step="${n}"]`);
+        }
+
+        function getInvalidFields(stepEl) {
+            const fields = stepEl.querySelectorAll('input, select, textarea');
+            return Array.from(fields).filter(f => !f.checkValidity());
+        }
+
+        function clearFieldError(field) {
+            field.classList.remove('input-error');
+            const group = field.closest('.form-group') || field.closest('.form-checkbox');
+            const msg = group && group.querySelector('.field-error');
+            if (msg) msg.remove();
+        }
+
+        function markFieldError(field) {
+            field.classList.add('input-error');
+            const group = field.closest('.form-group') || field.closest('.form-checkbox');
+            if (group && !group.querySelector('.field-error')) {
+                const msg = document.createElement('p');
+                msg.className = 'field-error';
+                msg.textContent = field.validationMessage || 'This field is required.';
+                group.appendChild(msg);
+            }
+        }
+
+        // Validate a step; mark all invalid fields and focus the first one.
+        function validateStep(stepEl) {
+            const invalid = getInvalidFields(stepEl);
+            stepEl.querySelectorAll('.input-error').forEach(clearFieldError);
+            invalid.forEach(markFieldError);
+            if (invalid.length) {
+                invalid[0].reportValidity();
+                invalid[0].focus();
+                return false;
+            }
+            return true;
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(getStepElement(currentStep))) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -244,8 +285,27 @@
             }
         });
 
+        // Clear a field's error as soon as the user corrects it.
+        form.addEventListener('input', function(e) {
+            if (e.target.classList.contains('input-error')) clearFieldError(e.target);
+        });
+        form.addEventListener('change', function(e) {
+            if (e.target.classList.contains('input-error')) clearFieldError(e.target);
+        });
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            // Hidden steps can't be validated natively, so check each step in JS
+            // and send the user to the first one containing an invalid field.
+            for (let n = 1; n <= totalSteps; n++) {
+                const stepEl = getStepElement(n);
+                if (getInvalidFields(stepEl).length) {
+                    currentStep = n;
+                    showStep(n);
+                    validateStep(stepEl);
+                    return;
+                }
+            }
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });

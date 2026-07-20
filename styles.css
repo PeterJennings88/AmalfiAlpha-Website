@@ -799,9 +799,15 @@ input, textarea {
 
 .form-checkbox {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     align-items: flex-start;
     margin-bottom: 32px;
+}
+
+.form-checkbox .field-error {
+    flex-basis: 100%;
+    margin-top: 0;
 }
 
 .form-checkbox input[type="checkbox"] {
@@ -1726,6 +1732,18 @@ html {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--color-accent);
+}
+
+.form-group input.input-error,
+.form-group select.input-error,
+.form-group textarea.input-error {
+    border-color: #e5484d;
+}
+
+.field-error {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    color: #e5484d;
 }
 
 .form-actions {

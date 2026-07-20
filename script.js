@@ -193,34 +193,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ============================================
-    // FORM HANDLING
+    // APPLICATION FORM
     // ============================================
-
-    const applicationForm = document.getElementById('applicationForm');
-
-    if (applicationForm) {
-        applicationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-
-            submitBtn.textContent = 'Submitting...';
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                this.reset();
-                submitBtn.textContent = 'Application Submitted!';
-                submitBtn.style.background = '#4ade80';
-
-                setTimeout(() => {
-                    submitBtn.textContent = originalText;
-                    submitBtn.style.background = '';
-                    submitBtn.disabled = false;
-                }, 3000);
-            }, 1500);
-        });
-    }
+    // The multi-step application form on apply.html manages its own
+    // validation and submission (see the inline script in that page).
 
     // ============================================
     // VIDEO BACKGROUND FALLBACK
