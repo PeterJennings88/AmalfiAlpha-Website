@@ -221,6 +221,22 @@
         let currentStep = 1;
         const totalSteps = 5;
 
+        // Signals to the shared script.js that this page owns the form's submit handling.
+        form.dataset.inlineHandler = 'true';
+
+        function validateStep(n) {
+            const step = form.querySelector(`.form-step[data-step="${n}"]`);
+            if (!step) return true;
+            const fields = step.querySelectorAll('input, select, textarea');
+            for (const field of fields) {
+                if (!field.checkValidity()) {
+                    field.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
         function showStep(n) {
             steps.forEach(s => s.classList.remove('active'));
             const target = form.querySelector(`.form-step[data-step="${n}"]`);
@@ -236,6 +252,7 @@
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
