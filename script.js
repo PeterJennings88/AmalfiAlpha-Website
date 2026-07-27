@@ -198,7 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const applicationForm = document.getElementById('applicationForm');
 
-    if (applicationForm) {
+    // Pages with their own inline submit handler (apply.html) opt out via data-inline-handler.
+    if (applicationForm && applicationForm.dataset.inlineHandler !== 'true') {
         applicationForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
