@@ -447,6 +447,7 @@ input, textarea {
 .testimonials-slider {
     margin-top: 60px;
     position: relative;
+    overflow: hidden;
 }
 
 .testimonial-track {
@@ -456,6 +457,7 @@ input, textarea {
 }
 
 .testimonial-card {
+    width: calc(33.333% - 16px);
     min-width: calc(33.333% - 16px);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
@@ -544,10 +546,23 @@ input, textarea {
 .dot {
     width: 8px;
     height: 8px;
+    padding: 0;
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
     border-radius: 50%;
     background: var(--color-border-light);
     transition: all var(--transition-fast);
     cursor: pointer;
+}
+
+.dot[hidden] {
+    display: none;
+}
+
+.dot:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
 }
 
 .dot.active {
@@ -717,7 +732,6 @@ input, textarea {
     aspect-ratio: 1;
     border-radius: 8px;
     overflow: hidden;
-    cursor: pointer;
 }
 
 .gallery-item img {
@@ -938,6 +952,7 @@ input, textarea {
     }
 
     .testimonial-card {
+        width: calc(50% - 12px);
         min-width: calc(50% - 12px);
     }
 
@@ -991,6 +1006,7 @@ input, textarea {
     }
 
     .testimonial-card {
+        width: 100%;
         min-width: 100%;
     }
 
@@ -1054,9 +1070,39 @@ input, textarea {
     transform: translateY(0);
 }
 
+/* Scroll reveal. Only hidden once the script has confirmed it can reveal them,
+   so the content stays visible when JavaScript is unavailable. */
+.js-enabled .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js-enabled .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 /* Smooth scroll for anchor links */
 html {
     scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .js-enabled .reveal,
+    .js-enabled .reveal.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .testimonial-track {
+        transition: none;
+    }
 }
 
 /* Selection styling */
