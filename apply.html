@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="application-card">
-                    <form id="applicationForm">
+                    <form id="applicationForm" novalidate>
                         <!-- Step 1: Basics -->
                         <div class="form-step active" data-step="1">
                             <p class="step-tagline">Step 1 of 5</p>
@@ -191,7 +191,7 @@
 
                         <!-- Success state -->
                         <div class="form-step" data-step="success">
-                            <div class="form-success">
+                            <div class="form-success" role="status" aria-live="polite">
                                 <div class="check-circle">
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
                                 </div>
@@ -221,6 +221,72 @@
         let currentStep = 1;
         const totalSteps = 5;
 
+        function fieldsOf(step) {
+            return Array.from(step.querySelectorAll('input, select, textarea'));
+        }
+
+        function containerOf(field) {
+            return field.closest('.form-group') || field.closest('.form-checkbox');
+        }
+
+        function messageFor(field) {
+            if (field.validity.valueMissing) {
+                if (field.type === 'checkbox') return 'Please tick this box to continue.';
+                if (field.tagName === 'SELECT') return 'Please select an option.';
+                const label = form.querySelector(`label[for="${field.id}"]`);
+                const name = label ? label.textContent.toLowerCase() : 'this field';
+                return `Please enter your ${name}.`;
+            }
+            if (field.validity.typeMismatch) {
+                if (field.type === 'email') return 'Please enter a valid email address, e.g. name@company.com.';
+                if (field.type === 'url') return 'Please enter a full URL, starting with https://';
+            }
+            return field.validationMessage || 'Please check this field.';
+        }
+
+        function clearFieldError(field) {
+            const container = containerOf(field);
+            if (!container) return;
+            container.classList.remove('has-error');
+            const message = container.querySelector('.field-error');
+            if (message) message.remove();
+            field.removeAttribute('aria-invalid');
+            field.removeAttribute('aria-describedby');
+        }
+
+        function showFieldError(field) {
+            const container = containerOf(field);
+            if (!container) return;
+            container.classList.add('has-error');
+            let message = container.querySelector('.field-error');
+            if (!message) {
+                message = document.createElement('span');
+                message.className = 'field-error';
+                message.id = `${field.id || field.name}-error`;
+                container.appendChild(message);
+            }
+            message.textContent = messageFor(field);
+            field.setAttribute('aria-invalid', 'true');
+            field.setAttribute('aria-describedby', message.id);
+        }
+
+        function validateStep(n, focusFirstInvalid) {
+            const step = form.querySelector(`.form-step[data-step="${n}"]`);
+            if (!step) return true;
+            let firstInvalid = null;
+            fieldsOf(step).forEach(field => {
+                if (field.checkValidity()) {
+                    clearFieldError(field);
+                } else {
+                    showFieldError(field);
+                    if (!firstInvalid) firstInvalid = field;
+                }
+            });
+            if (!firstInvalid) return true;
+            if (focusFirstInvalid !== false) firstInvalid.focus();
+            return false;
+        }
+
         function showStep(n) {
             steps.forEach(s => s.classList.remove('active'));
             const target = form.querySelector(`.form-step[data-step="${n}"]`);
@@ -236,6 +302,7 @@
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -244,8 +311,35 @@
             }
         });
 
+        function refreshFieldError(e) {
+            const field = e.target;
+            if (field.getAttribute('aria-invalid') !== 'true') return;
+            if (field.checkValidity()) {
+                clearFieldError(field);
+            } else {
+                showFieldError(field);
+            }
+        }
+
+        form.addEventListener('input', refreshFieldError);
+        form.addEventListener('change', refreshFieldError);
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            for (let n = 1; n <= totalSteps; n++) {
+                if (!validateStep(n, false)) {
+                    e.stopImmediatePropagation();
+                    if (n !== currentStep) {
+                        currentStep = n;
+                        showStep(currentStep);
+                    }
+                    const invalid = form.querySelector(`.form-step.active [aria-invalid="true"]`);
+                    if (invalid) invalid.focus();
+                    return;
+                }
+            }
+
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
