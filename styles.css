@@ -11,7 +11,7 @@
     --color-bg-card: #141414;
     --color-text: #ffffff;
     --color-text-secondary: #a0a0a0;
-    --color-text-muted: #666666;
+    --color-text-muted: #8a8a8a;
     --color-accent: #c9a962;
     --color-accent-light: #d4b978;
     --color-border: #2a2a2a;
@@ -1177,6 +1177,10 @@ html {
     margin-top: 60px;
 }
 
+.pillars-grid.three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .pillar-card {
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
@@ -1776,7 +1780,8 @@ html {
    ============================================ */
 
 @media (max-width: 1024px) {
-    .pillars-grid {
+    .pillars-grid,
+    .pillars-grid.three {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -1805,7 +1810,8 @@ html {
 }
 
 @media (max-width: 768px) {
-    .pillars-grid {
+    .pillars-grid,
+    .pillars-grid.three {
         grid-template-columns: 1fr;
     }
 
