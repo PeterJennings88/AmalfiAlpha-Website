@@ -16,6 +16,7 @@
     --color-accent-light: #d4b978;
     --color-border: #2a2a2a;
     --color-border-light: #333333;
+    --color-error: #d9756b;
 
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-display: 'Playfair Display', Georgia, serif;
@@ -1726,6 +1727,43 @@ html {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--color-accent);
+}
+
+.field-error {
+    display: none;
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    color: var(--color-error);
+}
+
+.field-error.visible {
+    display: block;
+}
+
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+    border-color: var(--color-error);
+}
+
+.form-checkbox {
+    flex-wrap: wrap;
+}
+
+.form-checkbox.has-error label {
+    color: var(--color-error);
+}
+
+.form-checkbox.has-error input[type="checkbox"] {
+    outline: 1px solid var(--color-error);
+    outline-offset: 3px;
+}
+
+.form-checkbox .field-error {
+    flex-basis: 100%;
+    margin-top: 10px;
 }
 
 .form-actions {
