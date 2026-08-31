@@ -11,7 +11,7 @@
     --color-bg-card: #141414;
     --color-text: #ffffff;
     --color-text-secondary: #a0a0a0;
-    --color-text-muted: #666666;
+    --color-text-muted: #8a8a8a;
     --color-accent: #c9a962;
     --color-accent-light: #d4b978;
     --color-border: #2a2a2a;
@@ -542,12 +542,19 @@ input, textarea {
 }
 
 .dot {
+    display: block;
     width: 8px;
     height: 8px;
+    padding: 0;
     border-radius: 50%;
     background: var(--color-border-light);
     transition: all var(--transition-fast);
     cursor: pointer;
+}
+
+.dot:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
 }
 
 .dot.active {
