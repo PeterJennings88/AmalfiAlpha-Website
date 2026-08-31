@@ -69,41 +69,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const dots = document.querySelectorAll('.dot');
 
     let currentSlide = 0;
-    let slidesPerView = 3;
+    let slidesPerView = 1;
     const totalSlides = testimonialCards.length;
 
-    function updateSlidesPerView() {
-        if (window.innerWidth <= 768) {
-            slidesPerView = 1;
-        } else if (window.innerWidth <= 1024) {
-            slidesPerView = 2;
-        } else {
-            slidesPerView = 3;
-        }
+    function measureSlider() {
+        const gap = parseFloat(getComputedStyle(testimonialTrack).columnGap) || 0;
+        const cardWidth = testimonialCards[0].offsetWidth;
+        const step = cardWidth + gap;
+
+        slidesPerView = step > 0
+            ? Math.min(totalSlides, Math.max(1, Math.round((testimonialTrack.offsetWidth + gap) / step)))
+            : 1;
+
+        return step;
+    }
+
+    function maxSlide() {
+        return Math.max(0, totalSlides - slidesPerView);
     }
 
     function updateSlider() {
-        if (!testimonialCards.length) return;
+        if (!testimonialTrack || !testimonialCards.length) return;
 
-        const cardWidth = testimonialCards[0].offsetWidth;
-        const gap = 24;
-        const offset = currentSlide * (cardWidth + gap);
-        testimonialTrack.style.transform = `translateX(-${offset}px)`;
+        const step = measureSlider();
+        currentSlide = Math.min(currentSlide, maxSlide());
+        testimonialTrack.style.transform = `translateX(-${currentSlide * step}px)`;
 
         dots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentSlide);
+            dot.hidden = index > maxSlide();
         });
     }
 
     function nextSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
-        currentSlide = currentSlide >= maxSlide ? 0 : currentSlide + 1;
+        currentSlide = currentSlide >= maxSlide() ? 0 : currentSlide + 1;
         updateSlider();
     }
 
     function prevSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
-        currentSlide = currentSlide <= 0 ? maxSlide : currentSlide - 1;
+        currentSlide = currentSlide <= 0 ? maxSlide() : currentSlide - 1;
         updateSlider();
     }
 
@@ -131,12 +135,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    window.addEventListener('resize', () => {
-        updateSlidesPerView();
-        updateSlider();
-    });
+    window.addEventListener('resize', updateSlider);
 
-    updateSlidesPerView();
+    updateSlider();
 
     // ============================================
     // SCROLL ANIMATIONS

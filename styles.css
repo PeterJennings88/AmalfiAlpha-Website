@@ -456,12 +456,11 @@ input, textarea {
 }
 
 .testimonial-card {
-    min-width: calc(33.333% - 16px);
+    flex: 0 0 calc((100% - 48px) / 3);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 8px;
     padding: 40px;
-    flex-shrink: 0;
 }
 
 .testimonial-content {
@@ -938,7 +937,7 @@ input, textarea {
     }
 
     .testimonial-card {
-        min-width: calc(50% - 12px);
+        flex-basis: calc((100% - 24px) / 2);
     }
 
     .experiences-grid {
@@ -991,7 +990,7 @@ input, textarea {
     }
 
     .testimonial-card {
-        min-width: 100%;
+        flex-basis: 100%;
     }
 
     .experiences-grid {
