@@ -28,35 +28,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
-    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    if (mobileMenuBtn && mobileMenu) {
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
 
-    mobileMenuBtn.addEventListener('click', function() {
-        mobileMenu.classList.toggle('active');
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-
-        const spans = mobileMenuBtn.querySelectorAll('span');
-        if (mobileMenu.classList.contains('active')) {
-            spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-            spans[1].style.opacity = '0';
-            spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-        } else {
-            spans[0].style.transform = '';
-            spans[1].style.opacity = '';
-            spans[2].style.transform = '';
-        }
-    });
-
-    mobileMenuLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
+        function setMobileMenu(open) {
+            mobileMenu.classList.toggle('active', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+            mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
 
             const spans = mobileMenuBtn.querySelectorAll('span');
-            spans[0].style.transform = '';
-            spans[1].style.opacity = '';
-            spans[2].style.transform = '';
+            if (open) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = '';
+                spans[1].style.opacity = '';
+                spans[2].style.transform = '';
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', function() {
+            setMobileMenu(!mobileMenu.classList.contains('active'));
         });
-    });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                setMobileMenu(false);
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                setMobileMenu(false);
+                mobileMenuBtn.focus();
+            }
+        });
+    }
 
     // ============================================
     // TESTIMONIALS SLIDER
