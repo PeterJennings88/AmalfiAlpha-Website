@@ -66,11 +66,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const testimonialCards = document.querySelectorAll('.testimonial-card');
     const prevBtn = document.querySelector('.slider-btn.prev');
     const nextBtn = document.querySelector('.slider-btn.next');
-    const dots = document.querySelectorAll('.dot');
+    const dotsContainer = document.querySelector('.slider-dots');
+    let dots = document.querySelectorAll('.dot');
 
     let currentSlide = 0;
     let slidesPerView = 3;
     const totalSlides = testimonialCards.length;
+
+    function getMaxSlide() {
+        return Math.max(0, totalSlides - slidesPerView);
+    }
+
+    function renderDots() {
+        if (!dotsContainer) return;
+        const positions = getMaxSlide() + 1;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < positions; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', `Show testimonial ${i + 1}`);
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                updateSlider();
+            });
+            dotsContainer.appendChild(dot);
+        }
+        dots = dotsContainer.querySelectorAll('.dot');
+    }
 
     function updateSlidesPerView() {
         if (window.innerWidth <= 768) {
@@ -85,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateSlider() {
         if (!testimonialCards.length) return;
 
+        currentSlide = Math.min(currentSlide, getMaxSlide());
+
         const cardWidth = testimonialCards[0].offsetWidth;
         const gap = 24;
         const offset = currentSlide * (cardWidth + gap);
@@ -96,13 +121,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function nextSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
+        const maxSlide = getMaxSlide();
         currentSlide = currentSlide >= maxSlide ? 0 : currentSlide + 1;
         updateSlider();
     }
 
     function prevSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
+        const maxSlide = getMaxSlide();
         currentSlide = currentSlide <= 0 ? maxSlide : currentSlide - 1;
         updateSlider();
     }
@@ -111,13 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
         nextBtn.addEventListener('click', nextSlide);
         prevBtn.addEventListener('click', prevSlide);
     }
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            updateSlider();
-        });
-    });
 
     let sliderInterval = setInterval(nextSlide, 5000);
 
@@ -133,10 +151,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('resize', () => {
         updateSlidesPerView();
+        renderDots();
         updateSlider();
     });
 
     updateSlidesPerView();
+    renderDots();
+    updateSlider();
 
     // ============================================
     // SCROLL ANIMATIONS
