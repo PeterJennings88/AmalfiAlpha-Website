@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="application-card">
-                    <form id="applicationForm">
+                    <form id="applicationForm" novalidate>
                         <!-- Step 1: Basics -->
                         <div class="form-step active" data-step="1">
                             <p class="step-tagline">Step 1 of 5</p>
@@ -233,9 +233,22 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function validateStep(n) {
+            const step = form.querySelector(`.form-step[data-step="${n}"]`);
+            const fields = step.querySelectorAll('input, select, textarea');
+            for (const field of fields) {
+                if (!field.checkValidity()) {
+                    field.reportValidity();
+                    return false;
+                }
+            }
+            return true;
+        }
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                if (!validateStep(currentStep)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -246,6 +259,16 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            for (let n = 1; n <= totalSteps; n++) {
+                const step = form.querySelector(`.form-step[data-step="${n}"]`);
+                const invalid = step.querySelector(':invalid');
+                if (invalid) {
+                    currentStep = n;
+                    showStep(n);
+                    invalid.reportValidity();
+                    return;
+                }
+            }
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
