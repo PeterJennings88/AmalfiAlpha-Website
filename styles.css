@@ -447,6 +447,7 @@ input, textarea {
 .testimonials-slider {
     margin-top: 60px;
     position: relative;
+    overflow: hidden;
 }
 
 .testimonial-track {
@@ -456,6 +457,8 @@ input, textarea {
 }
 
 .testimonial-card {
+    flex: 0 0 calc(33.333% - 16px);
+    width: calc(33.333% - 16px);
     min-width: calc(33.333% - 16px);
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
@@ -548,6 +551,13 @@ input, textarea {
     background: var(--color-border-light);
     transition: all var(--transition-fast);
     cursor: pointer;
+    border: none;
+    padding: 0;
+}
+
+.dot:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
 }
 
 .dot.active {
@@ -938,6 +948,8 @@ input, textarea {
     }
 
     .testimonial-card {
+        flex: 0 0 calc(50% - 12px);
+        width: calc(50% - 12px);
         min-width: calc(50% - 12px);
     }
 
@@ -991,6 +1003,8 @@ input, textarea {
     }
 
     .testimonial-card {
+        flex: 0 0 100%;
+        width: 100%;
         min-width: 100%;
     }
 
