@@ -30,12 +30,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileMenuLinks = mobileMenu.querySelectorAll('a');
 
+    function setMenuState(isOpen) {
+        mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    }
+
     mobileMenuBtn.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        const isOpen = mobileMenu.classList.contains('active');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        setMenuState(isOpen);
 
         const spans = mobileMenuBtn.querySelectorAll('span');
-        if (mobileMenu.classList.contains('active')) {
+        if (isOpen) {
             spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
             spans[1].style.opacity = '0';
             spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
@@ -50,11 +57,42 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function() {
             mobileMenu.classList.remove('active');
             document.body.style.overflow = '';
+            setMenuState(false);
 
             const spans = mobileMenuBtn.querySelectorAll('span');
             spans[0].style.transform = '';
             spans[1].style.opacity = '';
             spans[2].style.transform = '';
+        });
+    });
+
+    // ============================================
+    // COMING SOON LINKS
+    // ============================================
+
+    let comingSoonToast = null;
+    let comingSoonTimer = null;
+
+    function showComingSoon() {
+        if (!comingSoonToast) {
+            comingSoonToast = document.createElement('div');
+            comingSoonToast.className = 'coming-soon-toast';
+            comingSoonToast.setAttribute('role', 'status');
+            comingSoonToast.setAttribute('aria-live', 'polite');
+            document.body.appendChild(comingSoonToast);
+        }
+        comingSoonToast.textContent = 'Coming soon';
+        comingSoonToast.classList.add('visible');
+        clearTimeout(comingSoonTimer);
+        comingSoonTimer = setTimeout(() => {
+            comingSoonToast.classList.remove('visible');
+        }, 2000);
+    }
+
+    document.querySelectorAll('a[data-coming-soon]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            showComingSoon();
         });
     });
 

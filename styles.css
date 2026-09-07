@@ -925,6 +925,33 @@ input, textarea {
 }
 
 /* ============================================
+   COMING SOON TOAST
+   ============================================ */
+
+.coming-soon-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translate(-50%, 16px);
+    padding: 12px 24px;
+    background: var(--color-bg-secondary, #141414);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 2000;
+}
+
+.coming-soon-toast.visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
@@ -1296,6 +1323,7 @@ html {
     color: var(--color-accent);
 }
 
+.committee-card h3,
 .committee-card h4 {
     font-size: 1rem;
     font-weight: 600;
