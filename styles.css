@@ -1728,6 +1728,31 @@ html {
     border-color: var(--color-accent);
 }
 
+.form-group .is-invalid,
+.form-checkbox .is-invalid {
+    border-color: #c0564a;
+    outline-color: #c0564a;
+}
+
+.form-group .is-invalid:focus,
+.form-checkbox .is-invalid:focus {
+    border-color: #c0564a;
+}
+
+.field-error {
+    margin: 8px 0 0;
+    font-size: 0.8125rem;
+    color: #d9776c;
+}
+
+.form-checkbox {
+    flex-wrap: wrap;
+}
+
+.form-checkbox .field-error {
+    flex-basis: 100%;
+}
+
 .form-actions {
     display: flex;
     justify-content: space-between;
