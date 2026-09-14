@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mobileMenuBtn.addEventListener('click', function() {
         mobileMenu.classList.toggle('active');
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        const isOpen = mobileMenu.classList.contains('active');
+        mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+        document.body.style.overflow = isOpen ? 'hidden' : '';
 
         const spans = mobileMenuBtn.querySelectorAll('span');
         if (mobileMenu.classList.contains('active')) {
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     mobileMenuLinks.forEach(link => {
         link.addEventListener('click', function() {
             mobileMenu.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
 
             const spans = mobileMenuBtn.querySelectorAll('span');
@@ -82,8 +85,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function getMaxSlide() {
+        return Math.max(0, totalSlides - slidesPerView);
+    }
+
     function updateSlider() {
         if (!testimonialCards.length) return;
+
+        const maxSlide = getMaxSlide();
+        currentSlide = Math.min(currentSlide, maxSlide);
 
         const cardWidth = testimonialCards[0].offsetWidth;
         const gap = 24;
@@ -91,18 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
         testimonialTrack.style.transform = `translateX(-${offset}px)`;
 
         dots.forEach((dot, index) => {
+            dot.hidden = index > maxSlide;
             dot.classList.toggle('active', index === currentSlide);
         });
     }
 
     function nextSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
+        const maxSlide = getMaxSlide();
         currentSlide = currentSlide >= maxSlide ? 0 : currentSlide + 1;
         updateSlider();
     }
 
     function prevSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
+        const maxSlide = getMaxSlide();
         currentSlide = currentSlide <= 0 ? maxSlide : currentSlide - 1;
         updateSlider();
     }
@@ -114,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            currentSlide = index;
+            currentSlide = Math.min(index, getMaxSlide());
             updateSlider();
         });
     });
@@ -137,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateSlidesPerView();
+    updateSlider();
 
     // ============================================
     // SCROLL ANIMATIONS
