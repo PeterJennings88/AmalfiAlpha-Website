@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="application-card">
-                    <form id="applicationForm">
+                    <form id="applicationForm" novalidate>
                         <!-- Step 1: Basics -->
                         <div class="form-step active" data-step="1">
                             <p class="step-tagline">Step 1 of 5</p>
@@ -233,9 +233,48 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function setFieldError(field, message) {
+            const group = field.closest('.form-group, .form-checkbox') || field.parentElement;
+            let hint = group.querySelector('.field-error');
+            if (message) {
+                field.classList.add('is-invalid');
+                if (!hint) {
+                    hint = document.createElement('p');
+                    hint.className = 'field-error';
+                    group.appendChild(hint);
+                }
+                hint.textContent = message;
+            } else {
+                field.classList.remove('is-invalid');
+                if (hint) hint.remove();
+            }
+        }
+
+        function validateStep(stepEl) {
+            let firstInvalid = null;
+            stepEl.querySelectorAll('input, select, textarea').forEach(field => {
+                if (field.checkValidity()) {
+                    setFieldError(field, '');
+                } else {
+                    setFieldError(field, field.validationMessage || 'This field is required.');
+                    if (!firstInvalid) firstInvalid = field;
+                }
+            });
+            if (firstInvalid) firstInvalid.focus({ preventScroll: true });
+            return !firstInvalid;
+        }
+
+        form.addEventListener('input', function(e) {
+            if (e.target.classList.contains('is-invalid') && e.target.checkValidity()) {
+                setFieldError(e.target, '');
+            }
+        });
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                const stepEl = form.querySelector(`.form-step[data-step="${currentStep}"]`);
+                if (!validateStep(stepEl)) return;
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -246,6 +285,14 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            for (let n = 1; n <= totalSteps; n++) {
+                const stepEl = form.querySelector(`.form-step[data-step="${n}"]`);
+                if (!validateStep(stepEl)) {
+                    currentStep = n;
+                    showStep(n);
+                    return;
+                }
+            }
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
