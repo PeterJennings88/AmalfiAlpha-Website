@@ -1177,6 +1177,10 @@ html {
     margin-top: 60px;
 }
 
+.pillars-grid.three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
 .pillar-card {
     background: var(--color-bg-secondary);
     border: 1px solid var(--color-border);
@@ -1776,7 +1780,8 @@ html {
    ============================================ */
 
 @media (max-width: 1024px) {
-    .pillars-grid {
+    .pillars-grid,
+    .pillars-grid.three {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -1805,7 +1810,8 @@ html {
 }
 
 @media (max-width: 768px) {
-    .pillars-grid {
+    .pillars-grid,
+    .pillars-grid.three {
         grid-template-columns: 1fr;
     }
 
