@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="application-card">
-                    <form id="applicationForm">
+                    <form id="applicationForm" novalidate>
                         <!-- Step 1: Basics -->
                         <div class="form-step active" data-step="1">
                             <p class="step-tagline">Step 1 of 5</p>
@@ -233,9 +233,69 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function fieldWrapper(field) {
+            return field.closest('.form-group, .form-checkbox') || field.parentElement;
+        }
+
+        function errorMessage(field) {
+            if (field.type === 'checkbox') return 'Please confirm this to continue.';
+            if (field.tagName === 'SELECT') return 'Please choose an option.';
+            if (field.validity.valueMissing) return 'This field is required.';
+            if (field.type === 'email') return 'Please enter a valid email address.';
+            return field.validationMessage || 'Please check this field.';
+        }
+
+        function clearError(field) {
+            const wrap = fieldWrapper(field);
+            wrap.classList.remove('has-error');
+            field.removeAttribute('aria-invalid');
+            const msg = wrap.querySelector('.field-error');
+            if (msg) msg.remove();
+        }
+
+        function showError(field) {
+            const wrap = fieldWrapper(field);
+            clearError(field);
+            wrap.classList.add('has-error');
+            field.setAttribute('aria-invalid', 'true');
+            const msg = document.createElement('p');
+            msg.className = 'field-error';
+            msg.textContent = errorMessage(field);
+            wrap.appendChild(msg);
+        }
+
+        function validateStep(n) {
+            const step = form.querySelector(`.form-step[data-step="${n}"]`);
+            const fields = step.querySelectorAll('input, select, textarea');
+            let firstInvalid = null;
+            fields.forEach(field => {
+                if (field.checkValidity()) {
+                    clearError(field);
+                } else {
+                    showError(field);
+                    if (!firstInvalid) firstInvalid = field;
+                }
+            });
+            return firstInvalid;
+        }
+
+        function focusInvalid(field) {
+            field.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            field.focus({ preventScroll: true });
+        }
+
+        form.addEventListener('input', function(e) {
+            if (e.target.checkValidity()) clearError(e.target);
+        });
+        form.addEventListener('change', function(e) {
+            if (e.target.checkValidity()) clearError(e.target);
+        });
+
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
             if (action === 'next' && currentStep < totalSteps) {
+                const invalid = validateStep(currentStep);
+                if (invalid) { focusInvalid(invalid); return; }
                 currentStep++;
                 showStep(currentStep);
             } else if (action === 'back' && currentStep > 1) {
@@ -246,6 +306,17 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            for (let n = 1; n <= totalSteps; n++) {
+                const invalid = validateStep(n);
+                if (invalid) {
+                    if (n !== currentStep) {
+                        currentStep = n;
+                        showStep(n);
+                    }
+                    focusInvalid(invalid);
+                    return;
+                }
+            }
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
