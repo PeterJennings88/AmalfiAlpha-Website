@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const testimonialCards = document.querySelectorAll('.testimonial-card');
     const prevBtn = document.querySelector('.slider-btn.prev');
     const nextBtn = document.querySelector('.slider-btn.next');
-    const dots = document.querySelectorAll('.dot');
+    const dotsContainer = document.querySelector('.slider-dots');
 
     let currentSlide = 0;
     let slidesPerView = 3;
@@ -82,28 +82,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function getMaxSlide() {
+        return Math.max(0, totalSlides - slidesPerView);
+    }
+
+    function renderDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i <= getMaxSlide(); i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'dot';
+            dot.setAttribute('aria-label', `Go to testimonials ${i + 1} of ${getMaxSlide() + 1}`);
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                updateSlider();
+            });
+            dotsContainer.appendChild(dot);
+        }
+    }
+
     function updateSlider() {
         if (!testimonialCards.length) return;
 
-        const cardWidth = testimonialCards[0].offsetWidth;
-        const gap = 24;
+        currentSlide = Math.min(currentSlide, getMaxSlide());
+        const gap = parseFloat(getComputedStyle(testimonialTrack).gap) || 24;
+        const cardWidth = testimonialCards[0].getBoundingClientRect().width;
         const offset = currentSlide * (cardWidth + gap);
         testimonialTrack.style.transform = `translateX(-${offset}px)`;
 
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentSlide);
+        dotsContainer.querySelectorAll('.dot').forEach((dot, index) => {
+            const active = index === currentSlide;
+            dot.classList.toggle('active', active);
+            dot.setAttribute('aria-current', active ? 'true' : 'false');
         });
     }
 
     function nextSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
-        currentSlide = currentSlide >= maxSlide ? 0 : currentSlide + 1;
+        currentSlide = currentSlide >= getMaxSlide() ? 0 : currentSlide + 1;
         updateSlider();
     }
 
     function prevSlide() {
-        const maxSlide = Math.max(0, totalSlides - slidesPerView);
-        currentSlide = currentSlide <= 0 ? maxSlide : currentSlide - 1;
+        currentSlide = currentSlide <= 0 ? getMaxSlide() : currentSlide - 1;
         updateSlider();
     }
 
@@ -112,31 +133,29 @@ document.addEventListener('DOMContentLoaded', function() {
         prevBtn.addEventListener('click', prevSlide);
     }
 
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            updateSlider();
-        });
-    });
+    let sliderInterval = null;
 
-    let sliderInterval = setInterval(nextSlide, 5000);
-
-    if (testimonialTrack) {
-        testimonialTrack.addEventListener('mouseenter', () => {
-            clearInterval(sliderInterval);
-        });
-
-        testimonialTrack.addEventListener('mouseleave', () => {
-            sliderInterval = setInterval(nextSlide, 5000);
-        });
+    function startAutoAdvance() {
+        clearInterval(sliderInterval);
+        sliderInterval = setInterval(nextSlide, 5000);
     }
 
-    window.addEventListener('resize', () => {
-        updateSlidesPerView();
-        updateSlider();
-    });
+    if (testimonialTrack) {
+        const slider = testimonialTrack.closest('.testimonials-slider');
+        slider.addEventListener('mouseenter', () => clearInterval(sliderInterval));
+        slider.addEventListener('mouseleave', startAutoAdvance);
 
-    updateSlidesPerView();
+        window.addEventListener('resize', () => {
+            updateSlidesPerView();
+            renderDots();
+            updateSlider();
+        });
+
+        updateSlidesPerView();
+        renderDots();
+        updateSlider();
+        startAutoAdvance();
+    }
 
     // ============================================
     // SCROLL ANIMATIONS
