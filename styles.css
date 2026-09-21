@@ -1728,6 +1728,28 @@ html {
     border-color: var(--color-accent);
 }
 
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+    border-color: #e5484d;
+}
+
+.form-checkbox.has-error {
+    flex-wrap: wrap;
+}
+
+.form-checkbox.has-error input[type="checkbox"] {
+    outline: 2px solid #e5484d;
+    outline-offset: 2px;
+}
+
+.field-error {
+    flex-basis: 100%;
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    color: #e5484d;
+}
+
 .form-actions {
     display: flex;
     justify-content: space-between;
