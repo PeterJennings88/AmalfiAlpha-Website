@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AmalfiAlpha | Camaraderie, Competition, and Compounding</title>
     <meta name="description" content="A private membership for accredited investors, entrepreneurs, and former athletes — built around investment deal flow, concierge health, AI literacy, and community.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AmalfiAlpha">
+    <meta property="og:title" content="AmalfiAlpha | Camaraderie, Competition, and Compounding">
+    <meta property="og:description" content="A private membership for accredited investors, entrepreneurs, and former athletes — built around investment deal flow, concierge health, AI literacy, and community.">
+    <meta property="og:image" content="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg?format=1500w">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <!-- Navigation -->
     <header class="header">
         <nav class="nav">
@@ -24,7 +31,7 @@
                 <a href="ai-academy.html">AI Academy</a>
                 <a href="#" class="nav-cta">Member Login →</a>
             </div>
-            <button class="mobile-menu-btn" aria-label="Menu">
+            <button class="mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -33,7 +40,7 @@
     </header>
 
     <!-- Mobile Menu -->
-    <div class="mobile-menu">
+    <div class="mobile-menu" id="mobile-menu">
         <a href="about.html">About</a>
         <a href="investing.html">Investing</a>
         <a href="health.html">Longevity</a>
@@ -42,6 +49,7 @@
         <a href="apply.html" class="btn btn-primary">Apply Now</a>
     </div>
 
+    <main id="main-content">
     <!-- Hero -->
     <section class="hero">
         <div class="hero-content">
@@ -204,7 +212,7 @@
                     <a href="health.html" class="btn btn-secondary">Learn more about the partnership →</a>
                 </div>
                 <div class="velocity-image">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg" alt="AmalfiAlpha athlete member">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg?format=1500w" alt="AmalfiAlpha athlete member" loading="lazy">
                 </div>
             </div>
         </div>
@@ -225,7 +233,7 @@
                         </div>
                         <div class="testimonial-author">
                             <div class="author-avatar">
-                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a792f711-172f-4143-af08-2d50b8c70754/Untitled+%286%29.jpg" alt="Kyle Quincey">
+                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a792f711-172f-4143-af08-2d50b8c70754/Untitled+%286%29.jpg?format=300w" alt="Kyle Quincey" width="56" height="56" loading="lazy">
                             </div>
                             <div class="author-info">
                                 <h4>Kyle Quincey</h4>
@@ -239,7 +247,7 @@
                         </div>
                         <div class="testimonial-author">
                             <div class="author-avatar">
-                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/f6b84a4d-238a-49b5-b690-8b6c3b8f6f55/Untitled+%284%29.jpeg" alt="Eric Hinman">
+                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/f6b84a4d-238a-49b5-b690-8b6c3b8f6f55/Untitled+%284%29.jpeg?format=300w" alt="Eric Hinman" width="56" height="56" loading="lazy">
                             </div>
                             <div class="author-info">
                                 <h4>Eric Hinman</h4>
@@ -253,7 +261,7 @@
                         </div>
                         <div class="testimonial-author">
                             <div class="author-avatar">
-                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/54ead731-f417-4cee-9b8d-24da5bffadc8/Untitled+%287%29.png" alt="T.J. Ward">
+                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/54ead731-f417-4cee-9b8d-24da5bffadc8/Untitled+%287%29.png?format=300w" alt="T.J. Ward" width="56" height="56" loading="lazy">
                             </div>
                             <div class="author-info">
                                 <h4>T.J. Ward</h4>
@@ -267,7 +275,7 @@
                         </div>
                         <div class="testimonial-author">
                             <div class="author-avatar">
-                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/31b3e1fd-7566-4ed4-aa8b-446240f83dd8/Untitled+%2812%29.png" alt="Adam Levitan">
+                                <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/31b3e1fd-7566-4ed4-aa8b-446240f83dd8/Untitled+%2812%29.png?format=300w" alt="Adam Levitan" width="56" height="56" loading="lazy">
                             </div>
                             <div class="author-info">
                                 <h4>Adam Levitan</h4>
@@ -303,7 +311,7 @@
             </div>
             <div class="experiences-grid">
                 <div class="experience-card large">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg" alt="Golf">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg?format=1500w" alt="Golf" loading="lazy">
                     <div class="experience-overlay">
                         <span class="experience-tag">Golf</span>
                         <h3>Championship Golf</h3>
@@ -311,7 +319,7 @@
                     </div>
                 </div>
                 <div class="experience-card">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/525cb4f4-4b1b-4081-9f5f-6a90283ea742/The-Spat-at-The-Global-Ambassador-Portecochere-Healthy-Living-Travel.jpg" alt="Wellness">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/525cb4f4-4b1b-4081-9f5f-6a90283ea742/The-Spat-at-The-Global-Ambassador-Portecochere-Healthy-Living-Travel.jpg?format=1500w" alt="Wellness" loading="lazy">
                     <div class="experience-overlay">
                         <span class="experience-tag">Wellness</span>
                         <h3>Wellness Retreats</h3>
@@ -319,7 +327,7 @@
                     </div>
                 </div>
                 <div class="experience-card">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/452ade04-51ee-4816-b40e-627482b957d9/Amalfi_Dining_Leadership_Development_Experience_Catch_Restaurant.png" alt="Dining">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/452ade04-51ee-4816-b40e-627482b957d9/Amalfi_Dining_Leadership_Development_Experience_Catch_Restaurant.png?format=1500w" alt="Dining" loading="lazy">
                     <div class="experience-overlay">
                         <span class="experience-tag">Dining</span>
                         <h3>Michelin Experiences</h3>
@@ -327,7 +335,7 @@
                     </div>
                 </div>
                 <div class="experience-card">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg" alt="Aspen">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg?format=1500w" alt="Aspen" loading="lazy">
                     <div class="experience-overlay">
                         <span class="experience-tag">Events</span>
                         <h3>Exclusive Gatherings</h3>
@@ -335,7 +343,7 @@
                     </div>
                 </div>
                 <div class="experience-card">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/f48ce220-f368-4db8-8110-0c46b1a523a7/King-Kool-001+%281%29.jpg" alt="Networking">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/f48ce220-f368-4db8-8110-0c46b1a523a7/King-Kool-001+%281%29.jpg?format=1500w" alt="Networking" loading="lazy">
                     <div class="experience-overlay">
                         <span class="experience-tag">Networking</span>
                         <h3>Social Events</h3>
@@ -355,22 +363,22 @@
             </div>
             <div class="glimpse-gallery">
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/455c41f2-e84e-42b3-bba4-0e150a9016d3/Amalfi_Golf_Day_1_LowRes-174.jpg" alt="Golf Day 1">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/455c41f2-e84e-42b3-bba4-0e150a9016d3/Amalfi_Golf_Day_1_LowRes-174.jpg?format=1500w" alt="Golf Day 1" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/e12decd0-c3aa-43f6-969f-42dda2d96174/AmalfiAspen2024Day3-116.jpg" alt="Aspen Day 3">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/e12decd0-c3aa-43f6-969f-42dda2d96174/AmalfiAspen2024Day3-116.jpg?format=1500w" alt="Aspen Day 3" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/e360eb15-34ca-4f9f-b811-dc9df6491821/Amalfi_Golf_Day_2_LowRes-93.jpg" alt="Golf Day 2">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/e360eb15-34ca-4f9f-b811-dc9df6491821/Amalfi_Golf_Day_2_LowRes-93.jpg?format=1500w" alt="Golf Day 2" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg" alt="Aspen Day 2">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg?format=1500w" alt="Aspen Day 2" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/452ade04-51ee-4816-b40e-627482b957d9/Amalfi_Dining_Leadership_Development_Experience_Catch_Restaurant.png" alt="Dining Experience">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/452ade04-51ee-4816-b40e-627482b957d9/Amalfi_Dining_Leadership_Development_Experience_Catch_Restaurant.png?format=1500w" alt="Dining Experience" loading="lazy">
                 </div>
                 <div class="gallery-item">
-                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/525cb4f4-4b1b-4081-9f5f-6a90283ea742/The-Spat-at-The-Global-Ambassador-Portecochere-Healthy-Living-Travel.jpg" alt="Wellness">
+                    <img src="https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/525cb4f4-4b1b-4081-9f5f-6a90283ea742/The-Spat-at-The-Global-Ambassador-Portecochere-Healthy-Living-Travel.jpg?format=1500w" alt="Wellness" loading="lazy">
                 </div>
             </div>
         </div>
@@ -408,6 +416,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">

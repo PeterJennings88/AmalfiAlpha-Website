@@ -11,7 +11,7 @@
     --color-bg-card: #141414;
     --color-text: #ffffff;
     --color-text-secondary: #a0a0a0;
-    --color-text-muted: #666666;
+    --color-text-muted: #8a8a8a;
     --color-accent: #c9a962;
     --color-accent-light: #d4b978;
     --color-border: #2a2a2a;
@@ -26,6 +26,22 @@
 
     --container-width: 1280px;
     --section-padding: 120px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 2000;
+    padding: 12px 20px;
+    background: var(--color-accent);
+    color: #0a0a0a;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: top var(--transition-fast);
+}
+.skip-link:focus {
+    top: 16px;
 }
 
 /* Reset & Base */
@@ -288,7 +304,7 @@ input, textarea {
     z-index: -1;
     background:
         linear-gradient(to bottom, rgba(10, 10, 10, 0.6) 0%, rgba(10, 10, 10, 0.4) 50%, rgba(10, 10, 10, 0.7) 100%),
-        url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/4904673a-b2bc-4488-8820-f0f40d6108ff/Amalfi-private-luxury-network-founder-ceo-former-athletes+%281%29.jpg');
+        url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/4904673a-b2bc-4488-8820-f0f40d6108ff/Amalfi-private-luxury-network-founder-ceo-former-athletes+%281%29.jpg?format=2500w');
     background-size: cover;
     background-position: center;
 }
@@ -397,15 +413,15 @@ input, textarea {
 }
 
 .type-image.athlete {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg');
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/c889e86d-ab4b-4e2a-b497-337f56d717b7/Amalfi-Golf-private-founder-ceo-former-athlete-luxury-network+%281%29.jpg?format=1500w');
 }
 
 .type-image.investor {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a6350758-362d-4dd6-b7b1-6872cc72dab1/IMGL1883.jpg');
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/a6350758-362d-4dd6-b7b1-6872cc72dab1/IMGL1883.jpg?format=1500w');
 }
 
 .type-image.entrepreneur {
-    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg');
+    background-image: url('https://images.squarespace-cdn.com/content/v1/6695d90737f2c533afa46845/217bf971-f38d-4731-9371-74a3d3c623a7/AmalfiAspen2024Day2-51.jpg?format=1500w');
 }
 
 .type-card:hover .type-image {
@@ -1831,3 +1847,13 @@ html {
     }
 }
 
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .fade-in { opacity: 1; transform: none; }
+}
