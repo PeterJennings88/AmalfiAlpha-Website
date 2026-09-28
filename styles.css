@@ -1831,3 +1831,31 @@ html {
     }
 }
 
+
+/* ============================================
+   FORM VALIDATION
+   ============================================ */
+
+.form-group input.is-invalid,
+.form-group select.is-invalid,
+.form-group textarea.is-invalid {
+    border-color: #e5484d;
+}
+
+.form-checkbox input.is-invalid {
+    outline: 1px solid #e5484d;
+    outline-offset: 2px;
+}
+
+.field-error {
+    margin-top: 8px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: #ff6b6b;
+}
+
+.form-checkbox + .field-error {
+    margin-top: -24px;
+    margin-bottom: 24px;
+    padding-left: 30px;
+}

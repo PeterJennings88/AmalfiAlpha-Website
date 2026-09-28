@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="application-card">
-                    <form id="applicationForm">
+                    <form id="applicationForm" novalidate>
                         <!-- Step 1: Basics -->
                         <div class="form-step active" data-step="1">
                             <p class="step-tagline">Step 1 of 5</p>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+                                <input type="tel" id="phone" name="phone" required autocomplete="tel" inputmode="tel" pattern="(?=(?:\D*\d){7,15}\D*$)[\d\s\+\-\(\)\.]+" title="Enter a phone number with 7–15 digits. You may use spaces, +, -, dots and parentheses, e.g. +1 (555) 123-4567." placeholder="+1 (555) 000-0000">
                             </div>
                             <div class="form-group">
                                 <label for="city">City</label>
@@ -221,7 +221,7 @@
         let currentStep = 1;
         const totalSteps = 5;
 
-        function showStep(n) {
+        function showStep(n, keepScroll) {
             steps.forEach(s => s.classList.remove('active'));
             const target = form.querySelector(`.form-step[data-step="${n}"]`);
             if (target) target.classList.add('active');
@@ -230,14 +230,84 @@
                 if (i + 1 < n) d.classList.add('completed');
                 if (i + 1 === n) d.classList.add('active');
             });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (!keepScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function stepControls(n) {
+            return form.querySelectorAll(`.form-step[data-step="${n}"] input, .form-step[data-step="${n}"] select, .form-step[data-step="${n}"] textarea`);
+        }
+
+        function errorMessage(control) {
+            if (control.validity.patternMismatch && control.title) return control.title;
+            return control.validationMessage;
+        }
+
+        function clearError(control) {
+            control.classList.remove('is-invalid');
+            control.removeAttribute('aria-invalid');
+            const error = document.getElementById(control.id + '-error');
+            if (error) error.remove();
+            control.removeAttribute('aria-describedby');
+        }
+
+        function showError(control) {
+            clearError(control);
+            const error = document.createElement('p');
+            error.className = 'field-error';
+            error.id = control.id + '-error';
+            error.setAttribute('role', 'alert');
+            error.textContent = errorMessage(control);
+            const container = control.closest('.form-group, .form-checkbox');
+            if (container.classList.contains('form-checkbox')) {
+                container.insertAdjacentElement('afterend', error);
+            } else {
+                container.appendChild(error);
+            }
+            control.classList.add('is-invalid');
+            control.setAttribute('aria-invalid', 'true');
+            control.setAttribute('aria-describedby', error.id);
+        }
+
+        function validateStep(n) {
+            let firstInvalid = null;
+            stepControls(n).forEach(control => {
+                if (control.checkValidity()) {
+                    clearError(control);
+                } else {
+                    showError(control);
+                    if (!firstInvalid) firstInvalid = control;
+                }
+            });
+            if (firstInvalid) firstInvalid.reportValidity();
+            return !firstInvalid;
+        }
+
+        function firstInvalidStep() {
+            for (let n = 1; n <= totalSteps; n++) {
+                if (Array.from(stepControls(n)).some(c => !c.checkValidity())) return n;
+            }
+            return null;
+        }
+
+        function goNext() {
+            if (!validateStep(currentStep)) return;
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        form.addEventListener('input', function(e) {
+            if (e.target.classList.contains('is-invalid') && e.target.checkValidity()) clearError(e.target);
+        });
+        form.addEventListener('change', function(e) {
+            if (e.target.classList.contains('is-invalid') && e.target.checkValidity()) clearError(e.target);
+        });
 
         form.addEventListener('click', function(e) {
             const action = e.target.dataset.action;
-            if (action === 'next' && currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
+            if (action === 'next') {
+                goNext();
             } else if (action === 'back' && currentStep > 1) {
                 currentStep--;
                 showStep(currentStep);
@@ -246,6 +316,19 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+            if (currentStep < totalSteps) {
+                goNext();
+                return;
+            }
+            const invalidStep = firstInvalidStep();
+            if (invalidStep) {
+                if (invalidStep !== currentStep) {
+                    currentStep = invalidStep;
+                    showStep(currentStep, true);
+                }
+                validateStep(currentStep);
+                return;
+            }
             showStep('success');
             document.getElementById('stepIndicator').style.display = 'none';
         });
