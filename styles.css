@@ -1831,3 +1831,16 @@ html {
     }
 }
 
+
+/* Current page indicator */
+.nav-links a[aria-current="page"] {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 8px;
+}
+
+.mobile-menu a[aria-current="page"] {
+    color: var(--color-accent);
+}
